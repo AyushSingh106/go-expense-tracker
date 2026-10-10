@@ -14,6 +14,9 @@ func (s *ExpensesService) CreateExpense(ctx context.Context, expense domain.Expe
 	const op = "expenses.service.CreateExpense"
 
 	uid := core_ctx.GetUserID(ctx)
+	if err := expense.Validate(); err != nil {
+		return domain.Expense{}, fmt.Errorf("%s: %w", op, err)
+	}
 
 	hasAccessToAcc, err := s.accChecker.HasAccess(ctx, uid, expense.AccountID)
 	if err != nil {

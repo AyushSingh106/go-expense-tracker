@@ -4,3 +4,6 @@ logs/
 *.exe
 *.log
 .vscode
+.DS_Store
+.postman/
+postman/

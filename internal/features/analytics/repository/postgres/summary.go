@@ -62,12 +62,12 @@ func (r *AnalyticsRepository) Summary(
 	}
 
 	queryTopCat := `
-	SELECT c.id, c.name, SUM(e.amount)::biging AS cat_total
+	SELECT c.id, c.name, SUM(e.amount)::bigint AS cat_total
 	FROM expense_tracker.categories c
 	JOIN expense_tracker.expenses e ON c.id = e.category_id
 	WHERE e.account_id=$1
-		AND ($2::timestamptz IS NULL OR date >= $2)
-		AND ($3::timestamptz IS NULL OR date < $3);
+		AND ($2::timestamptz IS NULL OR e.date >= $2)
+		AND ($3::timestamptz IS NULL OR e.date < $3)
 	GROUP BY c.id, c.name
 	ORDER BY cat_total DESC
 	LIMIT 1;`
